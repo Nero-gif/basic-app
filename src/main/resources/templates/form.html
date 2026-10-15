@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulář</title>
+</head>
+<body>
+    <form action="/greet" method="post">
+        <label>Jméno: <input type="text" name="firstName" required></label><br>
+        <label>Příjmení: <input type="text" name="lastName" required></label><br>
+        <button type="submit">Odeslat</button>
+    </form>
+
+    <p th:if="${firstName != null}">
+        Ahoj, <span th:text="${firstName}"></span> <span th:text="${lastName}"></span> vítej v pekle.
+    </p>
+</body>
+</html>
