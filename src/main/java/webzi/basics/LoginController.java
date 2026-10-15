@@ -47,10 +47,4 @@ public class LoginController {
     public String user() {
         return "user";
     }
-    
-    @GetMapping("/newUser")
-    public String newUser(@RequestParam(required = false) String type, Model model) {
-        model.addAttribute("type", type);
-        return "newUser";
-    }
 }
