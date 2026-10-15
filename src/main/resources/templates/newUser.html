@@ -5,7 +5,9 @@
     <title>New User</title>
 </head>
 <body>
-    <form action="" method="post">
+    <h1 th:text="${type} == 'ADMIN' ? 'New Admin' : 'New User'"></h1>
+    <form action="/newUser" method="post">
+        <input type="hidden" name="type" th:value="${type} == 'ADMIN' ? 'ADMIN' : 'USER'">
         <label>Username: <input type="text" name="username" required></label>
         <label>Password: <input type="password" name="password" required></label>
         <button type="submit">Create</button>

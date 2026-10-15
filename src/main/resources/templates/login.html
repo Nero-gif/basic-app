@@ -9,7 +9,8 @@
         <label>Username: <input type="text" name="username" required></label><br>
         <label>Password: <input type="password" name="password" required></label><br>
         <button type="submit">Login</button>
-        <button>Create new user</button>
     </form>
+    <p th:if="${error}" th:text="${error}" style="color:red"></p>
+    <a href="/newUser"><button>Create new user</button></a>
 </body>
 </html>
