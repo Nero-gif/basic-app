@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Person</title>
+</head>
+<body>
+    <h1>New Person</h1>
+    <form action="/newPerson" method="post">
+        <label>First name: <input type="text" name="first_name" required></label>
+        <label>Last name: <input type="text" name="last_name" required></label>
+        <label>Biological gender: <input type="radio" name="gender" value="MALE" required> Male</label>
+        <label><input type="radio" name="gender" value="FEMALE" required> Female</label>
+        <button type="submit">Add Person</button>
+    </form>
+</body>
+</html>
