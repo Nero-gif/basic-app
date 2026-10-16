@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse People</title>
+</head>
+<body>
+    <h1>People</h1>
+    <table border="1">
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Biological gender</th>
+        </tr>
+        <tr th:each="person : ${people}">
+            <td th:text="${person.firstName}"></td>
+            <td th:text="${person.lastName}"></td>
+            <td th:text="${person.gender}"></td>
+        </tr>
+    </table>
+    <a href="/admin"><button>Back</button></a>
+</body>
+</html>
