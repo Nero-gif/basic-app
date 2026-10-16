@@ -34,9 +34,15 @@ public class PersonControler {
     }
     
     @GetMapping("/browsePeople")
-    public String browsePeople(Model model) {
-        List<Person> people = personRepository.findAll();
+    public String browsePeople(Model model, @RequestParam(required = false) String search) {
+        List<Person> people;
+        if (search != null && !search.isBlank()) {
+            people = personRepository.find(search);
+        } else {
+            people = personRepository.findAll();
+        }
         model.addAttribute("people", people);
+        model.addAttribute("search", search);
         return "browsePeople";
     }
 }
