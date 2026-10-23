@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulář</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
 </head>
 <body>
+<div>
     <form action="/greet" method="post">
         <label>Jméno: <input type="text" name="firstName" required></label><br>
         <label>Příjmení: <input type="text" name="lastName" required></label><br>
@@ -14,5 +16,6 @@
     <p th:if="${firstName != null}">
         Ahoj, <span th:text="${firstName}"></span> <span th:text="${lastName}"></span> vítej v pekle.
     </p>
+</div>
 </body>
 </html>

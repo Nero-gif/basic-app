@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
 </head>
 <body>
+<div>
     <form action="/login" method="post">
         <label>Username: <input type="text" name="username" required></label><br>
         <label>Password: <input type="password" name="password" required></label><br>
@@ -12,5 +14,6 @@
     </form>
     <p th:if="${error}" th:text="${error}" style="color:red"></p>
     <a href="/newUser"><button>Create new user</button></a>
+</div>
 </body>
 </html>

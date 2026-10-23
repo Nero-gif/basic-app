@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>New User</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
 </head>
 <body>
+<div>
     <h1 th:text="${type} == 'ADMIN' ? 'New Admin' : 'New User'"></h1>
     <form action="/newUser" method="post">
         <input type="hidden" name="type" th:value="${type} == 'ADMIN' ? 'ADMIN' : 'USER'">
@@ -12,5 +14,6 @@
         <label>Password: <input type="password" name="password" required></label>
         <button type="submit">Create</button>
     </form>
+</div>
 </body>
 </html>

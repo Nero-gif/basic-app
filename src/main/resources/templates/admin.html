@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
 </head>
 <body>
+<div>
     <h1>Welcome to the Admin Page</h1>
     <a href="/newPerson"><button>Add person</button></a>
     <a href="/browsePeople"><button>Browse people</button></a>
     <a href="/newUser?type=ADMIN"><button>Create new admin</button></a>
     <a href="/login"><button>Logout</button></a>
+</div>
 </body>
 </html>

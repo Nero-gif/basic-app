@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Browse People</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
 </head>
 <body>
+<div>
     <h1>People</h1>
     <form action="/browsePeople" method="get">
         <input type="text" name="search" th:value="${search}">
@@ -24,5 +26,6 @@
         </tr>
     </table>
     <a href="/admin"><button>Back</button></a>
+</div>
 </body>
 </html>
