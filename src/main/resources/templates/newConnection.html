@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Connection</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
+</head>
+<body>
+<div>
+    <h1>New Connection</h1>
+    <form action="/newConnection" method="post">
+        <select name="person_a" required>
+            <option th:each="person : ${people}" th:value="${person.id}"
+                    th:text="${person.firstName + ' ' + person.lastName}"></option>
+        </select>
+        <select name="person_b" required>
+            <option th:each="person : ${people}" th:value="${person.id}"
+                    th:text="${person.firstName + ' ' + person.lastName}"></option>
+        </select>
+        <button type="submit">Connect</button>
+    </form>
+    <p th:if="${error}" th:text="${error}" style="color:red"></p>
+    <a href="/admin"><button>Back</button></a>
+</div>
+</body>
+</html>

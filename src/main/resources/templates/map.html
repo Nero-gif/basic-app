@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Connection Map</title>
+    <link rel="stylesheet" th:href="@{/globalstyle.css}">
+    <script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+<div>
+    <h1>Connection Map</h1>
+    <div class="mapArea">
+        <div id="map"></div>
+        <div id="personDetail" hidden>
+            <table border="1">
+                <tr><th>ID</th><td id="detailId"></td></tr>
+                <tr><th>First name</th><td id="detailFirstName"></td></tr>
+                <tr><th>Last name</th><td id="detailLastName"></td></tr>
+                <tr><th>Biological gender</th><td id="detailGender"></td></tr>
+            </table>
+            <table border="1">
+                <thead><tr><th>Connected with</th></tr></thead>
+                <tbody id="detailConnections"></tbody>
+            </table>
+        </div>
+    </div>
+    <a href="/newConnection"><button>Add connection</button></a>
+    <a href="/admin"><button>Back</button></a>
+</div>
+<script th:inline="javascript">
+    const nodes = /*[[${nodes}]]*/ [];
+    const edges = /*[[${edges}]]*/ [];
+
+    // široký šestiúhelník se jménem uvnitř, šířka se řídí délkou jména
+    function wideHexagon({ ctx, x, y, state: { selected }, style, label }) {
+        ctx.font = "16px sans-serif";
+        const cut = 20;                                          // jak moc jsou zkosené boky
+        const h = 50;                                            // výška
+        const w = ctx.measureText(label).width + 2 * cut + 20;  // šířka podle délky jména
+        return {
+            drawNode() {
+                ctx.beginPath();
+                ctx.moveTo(x - w / 2, y);
+                ctx.lineTo(x - w / 2 + cut, y - h / 2);
+                ctx.lineTo(x + w / 2 - cut, y - h / 2);
+                ctx.lineTo(x + w / 2, y);
+                ctx.lineTo(x + w / 2 - cut, y + h / 2);
+                ctx.lineTo(x - w / 2 + cut, y + h / 2);
+                ctx.closePath();
+                ctx.fillStyle = style.color;          // color.background ze skupiny
+                ctx.strokeStyle = style.borderColor;  // color.border ze skupiny
+                ctx.lineWidth = selected ? 4 : 2;
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = "#000";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(label, x, y);
+            },
+            nodeDimensions: { width: w, height: h }
+        };
+    }
+
+    const network = new vis.Network(document.getElementById("map"), { nodes: nodes, edges: edges }, {
+        nodes: {font: { size: 16 }, borderWidthSelected: 4 },
+        groups: {
+            MALE: { color: { background: "#4fef00", border: "#497102", highlight: { background: "#b8ff8f", border: "#000" } },
+                    shape: "custom", ctxRenderer: wideHexagon },
+            FEMALE: { color: { background: "#ff8700", border: "#af0000", highlight: { background: "#ffc480", border: "#000" } },
+                      shape: "box", shapeProperties: { borderRadius: 10 }, margin: 10 }
+        },
+        edges: { width: 5, color: { color: "#555", highlight: "#000" } },
+        physics: { 
+            solver: "forceAtlas2Based",
+            forceAtlas2Based: {
+                gravitationalConstant: -100,
+                springLength: 100,
+                avoidOverlap: 1
+            }
+        }
+    });
+
+    const peopleById = new Map(nodes.map(n => [n.id, n]));
+    
+    network.on("click", params => {
+        const panel = document.getElementById("personDetail");
+        if (params.nodes.length === 0) {
+            panel.hidden = true;
+            return;
+        }
+
+        const person = peopleById.get(params.nodes[0]);
+        document.getElementById("detailId").textContent = person.id;
+        document.getElementById("detailFirstName").textContent = person.firstName;
+        document.getElementById("detailLastName").textContent = person.lastName;
+        document.getElementById("detailGender").textContent = person.group;
+
+        const connections = document.getElementById("detailConnections");
+        connections.replaceChildren();
+        const connectedIds = network.getConnectedNodes(person.id);
+        if (connectedIds.length === 0) {
+            connections.insertRow().insertCell().textContent = "—";
+        }
+        for (const id of connectedIds) {
+            const other = peopleById.get(id);
+            connections.insertRow().insertCell().textContent = other.firstName + " " + other.lastName;
+        }
+
+        panel.hidden = false;
+    });
+</script>
+</body>
+</html>

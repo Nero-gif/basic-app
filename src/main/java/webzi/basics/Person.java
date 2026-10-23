@@ -18,7 +18,9 @@ public class Person {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
-    
+
+
+    public Long getId() { return id; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
